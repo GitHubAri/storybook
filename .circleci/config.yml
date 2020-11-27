@@ -428,6 +428,18 @@ jobs:
       - run:
           name: Upload coverage
           command: yarn coverage
+  e2e-v2:
+    executor:
+      class: small
+      name: sb_node_10_classic
+    working_directory: /tmp/storybook
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: wait for registry
+          command: echo 'It works!'
 
 workflows:
   test:
@@ -481,3 +493,6 @@ workflows:
   deploy:
     jobs:
       - frontpage
+  e2e:
+    jobs:
+      - e2e-v2
