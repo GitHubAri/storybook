@@ -441,8 +441,22 @@ jobs:
           name: wait for registry
           command: echo 'It works!'
 
+parameters:
+  run_workflow_test:
+    type: boolean
+    default: true
+
+  run_workflow_deploy:
+    type: boolean
+    default: true
+
+  run_workflow_e2e:
+    type: boolean
+    default: false
+
 workflows:
   test:
+    when: << pipeline.parameters.run_workflow_test >>
     jobs:
 #      - build
       - install-e2e-deps
@@ -491,8 +505,10 @@ workflows:
 #          requires:
 #            - publish
   deploy:
+    when: << pipeline.parameters.run_workflow_deploy >>
     jobs:
       - frontpage
   e2e:
+    when: << pipeline.parameters.run_workflow_e2e >>
     jobs:
       - e2e-v2
